@@ -2,21 +2,22 @@
 using namespace std;
 
 int n;
-set<int> x;
 
 int main() {
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
 	cin >> n;
-	int b, c=0;
+	vector<int> x(n);
 	for (int i = 0; i < n; ++i) {
-		cin >> b;
-		if (x.count(b)) continue;
-		c++;
-		x.insert(b);
+		int s;
+		cin >> s;
+		x[s-1]=i;
 	}
 
-	cout << c << '\n';
+	int c=1;
+	for (int i = 0; i < n; ++i) c+=(x[i-1]>x[i]);
+
+	cout << c;
 	return 0;
 }
