@@ -1,0 +1,5 @@
+/*
+I saw a really cool solution with a fenwick tree
+idk how it works
+i want to one day so this is a reminder to check it out
+*/

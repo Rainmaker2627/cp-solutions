@@ -18,6 +18,6 @@ int main() {
 	int c=1;
 	for (int i = 0; i < n; ++i) c+=(x[i-1]>x[i]);
 
-	cout << c;
+	cout << c << '\n';
 	return 0;
 }

@@ -5,12 +5,11 @@ typedef pair<ll, int> plli;
 
 const ll inf=1e18;
 int n, m;
-ll d[100000];
-int s[100000];
+ll d[100000][2];
 vector<pair<int, int>> e[100000];
 
 int main() {
-	// cin.tie(0)->sync_with_stdio(false);
+	cin.tie(0)->sync_with_stdio(false);
 
 	cin >> n >> m;
 	for (int i = 0; i < m; ++i) {
@@ -19,24 +18,27 @@ int main() {
 		e[a-1].push_back({b-1, c});
 	}
 
-	for (int i = 1; i < n; ++i) d[i]=inf;
+	for (int i = 1; i < n; ++i) d[i][false]=d[i][true]=inf;
 
 	priority_queue<plli, vector<plli>, greater<plli>> pq;
 	pq.push({0,0});
 	while (!pq.empty()) {
-		auto [c, n] = pq.top();
+		auto [c, u] = pq.top();
+		bool b=u<0; u=abs(u);
 		pq.pop();
-		if (d[n]<c) continue;
-		c+=s[n]/2+s[n]%2;
-		for (auto i : e[n]) {
-			s[i.first]=max(s[n], i.second);
-			if (d[i.first]>c+i.first-s[i.first]/2-s[i.first]%2) {
-				pq.push({d[i.first]=c+i.first-s[i.first]/2-s[i.first]%2,i.first});
+		if (d[u][b]<c) continue;
+		if (u==n-1) break;
+		for (auto [v, w] : e[u]) {
+			if (!b && d[v][true] > c+w/2) {
+				d[v][true]=c+w/2;
+				pq.push({d[v][true], -v});
+			} if (d[v][b]>c+w) {
+				d[v][b]=c+w;
+				pq.push({d[v][b], -(2*b-1)*v});
 			}
 		}
 	}
 
-	cout << d[n-1] << '\n';
-	cin >> n;
+	cout << d[n-1][true] << '\n';
 	return 0;
 }
