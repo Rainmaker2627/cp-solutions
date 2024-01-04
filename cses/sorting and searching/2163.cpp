@@ -2,7 +2,7 @@
 #include<bits/extc++.h>
 using namespace std;
 using namespace __gnu_pbds;
-typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
 
 int n, k;
 
@@ -10,7 +10,7 @@ int main() {
 	cout.tie(0)->sync_with_stdio(false);
 
 	cin >> n >> k;
-	ordered_set s;
+	indexed_set s;
 	for (int i = 0; i < n; ++i) {
 		s.insert(i+1);
 	}
