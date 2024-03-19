@@ -3,7 +3,7 @@ competitive programming (not the other cp)
 
 a thing i do sometimes idk
 
-some stuff is here maybe
+some stuff is here maybe,
 useful checklist at this website: https://oichecklist.pythonanywhere.com/
 
 anyways
