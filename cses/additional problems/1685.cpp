@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-vector<bool> s;
+vector<bool> s, used;
 
 void dfs_scc(int u, vector<int>& c, vector<vector<int>>& g) {
 	s[u]=true;
@@ -11,8 +11,14 @@ void dfs_scc(int u, vector<int>& c, vector<vector<int>>& g) {
 	} c.push_back(u);
 }
 
-void dfs(int u, vector<vector<int>>& g) {
-
+int dfs_mat(int u, vector<int>& c, vector<vector<int>>& g) {
+	s[u]=true;
+	int res=0;
+	if (c[u]==0 && !used[u]) return u;
+	for (auto v : g[u]) {
+		if (s[v]) continue;
+		if (int t=dfs_mat(v, c, g)) res=t;
+	} return res;
 }
 
 int main() {
@@ -30,7 +36,7 @@ int main() {
 
 	int c=0;
 	s.assign(n+1, false);
-	vector<int> tout, comp(n+1);
+	vector<int> tout, comp(n+1), id(1, 0);
 	for (int i = 1; i <= n; ++i) {
 		if (!s[i]) dfs_scc(i, tout, f);
 	} reverse(tout.begin(), tout.end());
@@ -41,29 +47,63 @@ int main() {
 		dfs_scc(u, t, r); c++;
 		for (auto v : t) {
 			comp[v]=c;
-		}
+		} id.push_back(t[0]);
 	}
 
+	if (c==1) { cout << 0 << '\n'; return 0; }
+
 	vector<int> ind(c+1, 0), outd(c+1, 0);
-	vector<vector<int>> scc(c+1, vector<int>());
+	vector<vector<int>> scc(c+1, vector<int>()), sccr(c+1, vector<int>());
 	for (int i = 1; i <= n; ++i) {
 		for (auto v : f[i]) {
 			if (comp[i]==comp[v]) continue;
+			sccr[comp[v]].push_back(comp[i]);
 			scc[comp[i]].push_back(comp[v]);
 			ind[comp[v]]++; outd[comp[i]]++;
 		}
-	} 
+	}
 
-	// consider the sources (set A) and sinks (set B)
-	// let U={u1, u2, ..., ui}=AnB
-	// join u1->u2, u2->u3, ..., not ui->u1. For some v not in U, join v->u1, ui->v.
-	// find a "blocking" matching (similar to Dicnic's algorithm)
-		// ie a matching that cannot be extended by adding a disjoint path from a source to a sink
-	// let it be A1->B1, A2->B2, ..., Ak->Bk
-	// join B1->A2, B2->A3, ..., Bk->A1
-	// this forms a scc X. We now for some set of a in A, a->X, and for some set of b in B, X->b
-	// greedily add the reverse of these edges
-	// we are done in O(n) time
+	vector<int> S, T;
+	for (int i = 1; i <= c; ++i) {
+		if (ind[i]==0) S.push_back(i);
+		if (outd[i]==0) T.push_back(i);
+	}
+
+	s.assign(c+1, false);
+	used.assign(c+1, false);
+	vector<pair<int, int>> mat;
+	for (auto u : S) {
+		int v=dfs_mat(u, outd, scc);
+		if (!v) continue;
+		mat.push_back({u, v});
+		used[u]=used[v]=true;
+	} s.assign(c+1, false);
+	for (auto v : T) {
+		if (used[v]) continue;
+		int u=dfs_mat(v, ind, sccr);
+		if (!u) continue;
+		mat.push_back({u, v});
+		used[u]=used[v]=true;
+	}
+
+	vector<pair<int, int>> ans;
+	for (int i = 0; i < mat.size(); ++i) {
+		ans.push_back({mat[i].second, mat[(i+1)%mat.size()].first});
+	}
+
+	for (int i = 0, j = 0;;) {
+		while (i<S.size() && used[S[i]]) i++;
+		while (j<T.size() && used[T[j]]) j++;
+		if (i>=S.size() && j>=T.size()) break;
+		int u=S[i%S.size()], v=T[j%T.size()];
+		used[u]=used[v]=true;
+		ans.push_back({v, u});
+	}
+
+	cout << ans.size() << '\n';
+	for (auto i : ans) {
+		cout << id[i.first] << ' ' << id[i.second] << '\n';
+	}
 
 	return 0;
 }
