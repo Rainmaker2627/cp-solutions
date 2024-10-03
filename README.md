@@ -1,18 +1,6 @@
 # cp-solutions
-competitive programming (not the other cp)
+competitive programming 
 
-a thing i do sometimes idk
-
-some stuff is here maybe,
-useful checklist at this website: https://oichecklist.pythonanywhere.com/
-
-anyways
-
-uh
-
-segment tree is greatest data structure bubble sort is the only true sorting algorithm word is the best ide yes i use floating point numbers, no 0.1 + 0.2 does not equal 0.3 (if someone tells you otherwise they acting sus)
-
-among us jokes are still funny
 <pre>
                                                                                    .@@  
                                                                                   .@@@@  
