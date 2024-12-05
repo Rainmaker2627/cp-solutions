@@ -7,15 +7,14 @@ int main() {
 	string s;
 	cin >> s;
 
-	int n=s.length();
-	vector<int> z(n, 0);
-	int l=0, r=0;
+	int n=s.length(), l=0, r=0;
+	vector<int> z(n);
 	for (int i = 1; i < n; ++i) {
-		if (i<r) z[i]=min(r-i, z[i-l]);
-		while (i+z[i]<n && s[z[i]]==s[i+z[i]]) z[i]++;
-		if (r<i+z[i]) l=i, r=z[i]+i;
-		if (z[i]==n-i) cout << i << ' ';
+		if (i<=r) z[i]=min(z[i-l], r-i);
+		while (i+z[i]<n && s[i+z[i]]==s[z[i]]) z[i]++;
+		if (z[i]+i>r) r=z[i]+i, l=i;
+		if (i+z[i]==n) cout << i << ' ';
 	} cout << n << '\n';
-
+	
 	return 0;
 }

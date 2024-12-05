@@ -19,37 +19,22 @@ struct segtree {
 	void update(int p, int v, int n=1, int nl=1, int nr=1) {
 		if (n==1) { nr=this->n; p=m[p]; }
 		if (nr<p || p<nl) return;
-		if (nl==nr) { st[n]=v; return; }
+		if (nl==nr) { st[n]=(st[n]+v)%mod; return; }
 		update(p, v, 2*n, nl, (nl+nr)/2);
 		update(p, v, 2*n+1, (nl+nr)/2+1, nr);
-		st[n]=max(st[n], v);
+		st[n]=(st[n]+v)%mod;
 	}
  
 	int query(int a, int b, int n=1, int nl=1, int nr=1) {
 		if (n==1) { nr=this->n; b=m[b]-1; }
 		if (nr<a || b<nl) return 0;
 		if (a<=nl && nr<=b) return st[n];
-		return max(query(a, b, 2*n, nl, (nl+nr)/2), query(a, b, 2*n+1, (nl+nr)/2+1, nr));
+		return (query(a, b, 2*n, nl, (nl+nr)/2) + query(a, b, 2*n+1, (nl+nr)/2+1, nr))%mod;
 	}
 };
 
 int main() {
 	cin.tie(0)->sync_with_stdio(false);
-
-	int n;
-	cin >> n;
-	vector<int> v(n);
-	for (int i = 0; i < n; ++i) {
-		cin >> v[i];
-	}
-
-	int m=0;
-	segtree st(v);
-	for (int i = 0; i < n; ++i) {
-		int q=st.query(1, v[i])+1;
-		m=max(m,  q);
-		st.update(v[i], q);
-	} cout << m << '\n';
 
 	return 0;
 }

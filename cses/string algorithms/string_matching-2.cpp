@@ -8,19 +8,18 @@ int main() {
 	cin >> s >> p;
 	s=p+'#'+s;
 
-	int n=s.length();
-	vector<int> pi(n, 0);
+	int n=s.length(), l=0, r=0;
+	vector<int> z(n, 0);
 	for (int i = 1; i < n; ++i) {
-		int j=pi[i-1];
-		while (j>0 && s[i]!=s[j]) j=pi[j-1];
-		if (s[i]==s[j]) j++;
-		pi[i]=j;
+		if (i<=r) z[i]=min(z[i-l], r-i);
+		while (i+z[i]<n && s[i+z[i]]==s[z[i]]) z[i]++;
+		if (i+z[i]>r) r=i+z[i], l=i;
 	}
 
-	int x=0;
-	for (int i = p.length()+1; i < n; ++i) {
-		if (pi[i]==p.length()) x++;
-	} cout << x << '\n';
+	int t=0;
+	for (auto i : z) {
+		if (i==p.size()) t++;
+	} cout << t << '\n';
 
 	return 0;
 }
