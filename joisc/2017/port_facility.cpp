@@ -3,11 +3,11 @@ using namespace std;
 #define int long long
 
 struct dsu {
-	int n;
+	int n, cc;
 	vector<int> r, s, d;
 
 	dsu(int n) {
-		this->n=n;
+		this->n=n; cc=n;
 		r.reserve(n+1);
 		for (int i = 1; i <= n; ++i) r[i]=i;
 		s.assign(n+1, 1);
@@ -26,21 +26,29 @@ struct dsu {
 		if (ra==rb) return d[a]^d[b]==1;
 		if (s[ra]<s[rb]) swap(ra, rb);
 		d[rb]=1^d[a]^d[b];
-		r[rb]=ra; s[ra]+=s[rb];
+		r[rb]=ra; s[ra]+=s[rb]; cc--;
 		return true;
 	}
 };
 
+int exp(int a, int b, int mod) {
+	int x=1;
+	while (b) {
+		if (b%2) x=(x*a)%mod;
+		a=(a*a)%mod; b/=2;
+	} return x;
+}
+
 signed main() {
 	cin.tie(0)->sync_with_stdio(false);
 
-	int n, a, b=1;
+	int n, a, b;
 	cin >> n;
-	vector<int> id(n+1, 0), e(2*n+1);
-	for (int i = 1, t = 1; i <= n; ++i) {
-		cin >> a;
-		e[t++]=id[a]=i;
-		while (b<=n && id[b]) e[t++]=-id[b++];
+	vector<int> e(2*n+1);
+	for (int i = 0; i < n; ++i) {
+		cin >> a >> b;
+		e[a]=i+1;
+		e[b]=-i-1;
 	}
 
 	dsu uf(n+1);
@@ -59,7 +67,7 @@ signed main() {
 					if (mt.top().size()==0) mt.pop();
 					break;
 				}
-				if (!uf.unite(e[i], mt.top().back())) { cout << "IMPOSSIBLE\n"; return 0; }
+				if (!uf.unite(e[i], mt.top().back())) { cout << "0\n"; return 0; }
 				tmp.splice(tmp.begin(), mt.top());
 				mt.pop();
 			}
@@ -70,9 +78,6 @@ signed main() {
 		}
 	}
 
-	for (int i = 1; i <= n; ++i) {
-		cout << (uf.d[uf.find(i)]^uf.d[i])+1 << ' ';
-	} cout << '\n';
-
+	cout << exp(2, uf.cc-1, 1e9+7) << '\n';
 	return 0;
 }
