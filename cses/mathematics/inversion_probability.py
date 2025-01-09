@@ -1,4 +1,4 @@
-# im not dealing with rounding problems in c++
+from decimal import Decimal as dec
 from math import gcd
 n=int(input())
 r=[*map(int, input().split())]
@@ -12,4 +12,4 @@ for i in range(n):
         g=gcd(a,b)
         a,b=a//g,b//g
 
-print(f"{a/b:.6f}")
+print(round(dec(a)/dec(b), 6))
