@@ -4,3 +4,4 @@ USACO 2017 Open Plat: Modern Art
 JOI Spring Camp Day 1: Port Facility
 USACO 2023 Jan Gold: Find and Replace
 BOI 2016 Day 1: Park
+USACO 2024 Dec Gold: Cowdependence

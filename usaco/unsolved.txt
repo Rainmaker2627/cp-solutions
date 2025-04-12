@@ -6,6 +6,7 @@ Custodial Cleanup, 2022 Open Gold
 Test for Haybales, 2022 Jan Gold
 Redistributing Gifts, 2022 Feb Gold
 
-so basically i believe silver is impl hell ans CAN I PLEASE PROMOTE FROM SILVER PLSPLSPLS waaaa 😭, regardless:
-
-Email Filing, 2022 Feb Silver
+As for silver and below, implementation becomes the hardest part, solving is usually ok
+I wont do a silver problem unless I like the idea and implementation isnt terrible
+Gold is actually difficult and i have yet to solve a plat problem so im mostly just doing
+the problems that are around gold level
